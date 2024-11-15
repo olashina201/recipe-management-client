@@ -131,7 +131,7 @@ const RecipeDetails = () => {
 
             <div className="mt-8 flex space-x-4">
               <Button
-                onClick={() => router.push(`/edit?id=${recipe._id}`)}
+                onClick={() => router.push(`/edit/${recipe._id}`)}
                 variant="outline"
               >
                 Edit Recipe
