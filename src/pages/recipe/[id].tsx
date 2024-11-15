@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Recipe } from "@/lib/types";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const RecipeDetails = () => {
   const router = useRouter();
@@ -68,9 +69,11 @@ const RecipeDetails = () => {
         <div className="bg-white rounded-xl shadow-sm overflow-hidden animate-fade-up">
           {recipe.image && (
             <div className="aspect-w-16 aspect-h-9 bg-zinc-100">
-              <img
+              <Image
                 src={recipe.image}
                 alt={recipe.title}
+                width={100}
+                height={100}
                 className="object-cover w-full h-full"
               />
             </div>
