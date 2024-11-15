@@ -7,7 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 const RecipeDetails = () => {
   const router = useRouter();
-  const params = useParams<{ id: string }>();
+  const params = useParams<{ id: string | null }>();
   const { id } = params;
   const { toast } = useToast();
   const { data: recipe, isLoading } = useRecipe(id!);
@@ -23,7 +23,7 @@ const RecipeDetails = () => {
       </div>
     );
   }
-  
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-zinc-50">

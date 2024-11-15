@@ -8,7 +8,7 @@ import { RecipeFormData } from "@/lib/types";
 const EditRecipe = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const params = useParams<{ id: string }>();
+  const params = useParams<{ id: string | null }>();
   const { id } = params;
 
   const { data: recipe, isLoading } = useRecipe(id!);
