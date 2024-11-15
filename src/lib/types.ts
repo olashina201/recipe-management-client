@@ -1,17 +1,17 @@
 export interface Recipe {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   ingredients: string[];
   instructions: string[];
-  image?: string;
+  imageUrl?: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface RecipeFormData {
   title: string;
-  description: string;
+  description?: string;
   ingredients: string[];
   instructions: string[];
   image?: File;

@@ -1,36 +1,17 @@
-import { useRouter, useSearchParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { Recipe } from "@/lib/types";
+import { useRouter, useParams } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useRecipe, useDeleteRecipe } from "@/hooks/useRecipes";
+import { useToast } from "@/components/ui/use-toast";
 
 const RecipeDetails = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-
-  const { data: recipe, isLoading } = useQuery({
-    queryKey: ["recipe", id],
-    queryFn: () =>
-      // Replace with actual API call
-      Promise.resolve({
-        id: "1",
-        title: "Classic Margherita Pizza",
-        description:
-          "A traditional Italian pizza with fresh basil and mozzarella",
-        ingredients: ["Pizza dough", "Tomatoes", "Mozzarella", "Basil"],
-        instructions: [
-          "Prepare the pizza dough",
-          "Add fresh tomato sauce",
-          "Top with mozzarella and basil",
-          "Bake in a hot oven",
-        ],
-        image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      } as Recipe),
-  });
+  const params = useParams<{ id: string }>();
+  const { id } = params;
+  const { toast } = useToast();
+  const { data: recipe, isLoading } = useRecipe(id!);
+  const { mutate: deleteRecipe } = useDeleteRecipe();
 
   if (isLoading) {
     return (
@@ -61,16 +42,35 @@ const RecipeDetails = () => {
     );
   }
 
+  const handleDelete = () => {
+    deleteRecipe(recipe._id, {
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "Recipe deleted successfully",
+        });
+        router.push("/");
+      },
+      onError: () => {
+        toast({
+          title: "Error",
+          description: "Failed to delete recipe",
+          variant: "destructive",
+        });
+      },
+    });
+  };
+
   return (
     <div className="min-h-screen bg-zinc-50">
       <Navigation />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <div className="bg-white rounded-xl shadow-sm overflow-hidden animate-fade-up">
-          {recipe.image && (
+          {recipe.imageUrl && (
             <div className="aspect-w-16 aspect-h-9 bg-zinc-100">
               <Image
-                src={recipe.image}
+                src={recipe.imageUrl}
                 alt={recipe.title}
                 width={100}
                 height={100}
@@ -115,18 +115,12 @@ const RecipeDetails = () => {
 
             <div className="mt-8 flex space-x-4">
               <Button
-                onClick={() => router.push(`/edit/${recipe.id}`)}
+                onClick={() => router.push(`/edit?id=${recipe._id}`)}
                 variant="outline"
               >
                 Edit Recipe
               </Button>
-              <Button
-                variant="destructive"
-                onClick={() => {
-                  // Add delete functionality
-                  console.log("Delete recipe:", recipe.id);
-                }}
-              >
+              <Button variant="destructive" onClick={handleDelete}>
                 Delete Recipe
               </Button>
             </div>

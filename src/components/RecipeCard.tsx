@@ -9,13 +9,13 @@ interface RecipeCardProps {
 const RecipeCard = ({ recipe }: RecipeCardProps) => {
   return (
     <Link
-      href={`/recipe/${recipe.id}`}
+      href={`/recipe/${recipe._id}`}
       className="group relative bg-white rounded-xl overflow-hidden border border-zinc-100 hover:border-zinc-200 transition-all duration-300 animate-fade-up"
     >
       <div className="aspect-w-16 aspect-h-9 bg-zinc-100">
-        {recipe.image ? (
+        {recipe.imageUrl ? (
           <Image
-            src={recipe.image}
+            src={recipe.imageUrl}
             alt={recipe.title}
             width={100}
             height={100}
