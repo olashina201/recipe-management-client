@@ -17,6 +17,8 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
           <Image
             src={recipe.image}
             alt={recipe.title}
+            width={100}
+            height={100}
             className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
