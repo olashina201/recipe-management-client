@@ -14,6 +14,17 @@ const EditRecipe = () => {
   const { data: recipe, isLoading } = useRecipe(id!);
   const { mutate: editRecipe, isPending: isUpdating } = useEditRecipe(id!);
 
+  if (!id) {
+    return (
+      <div className="min-h-screen bg-zinc-50">
+        <Navigation />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+          <p className="text-zinc-600">Invalid Recipe ID</p>
+        </div>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-zinc-50">
