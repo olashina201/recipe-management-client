@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-// import { useQuery } from "@tanstack/react-query";
 import RecipeCard from "@/components/RecipeCard";
 import Navigation from "@/components/Navigation";
 import {
@@ -10,25 +10,24 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useRecipes } from "@/hooks/useRecipes";
+import { useRecipes } from "@/hooks/useRecipes"; // Update the hook to handle paginated data
 
-// Constants for pagination
 const ITEMS_PER_PAGE = 6;
 
 const Home = () => {
   const [page, setPage] = useState(1);
 
-  const { data: recipesData, isLoading, isError } = useRecipes();
+  // Fetch the paginated recipes and metadata
+  const {
+    data: recipesData,
+    isLoading,
+    isError,
+  } = useRecipes(page, ITEMS_PER_PAGE);
 
   // Handle pagination logic
-  const paginatedRecipes = recipesData
-    ? recipesData.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
-    : [];
+  const totalPages = recipesData?.totalPages || 1;
 
-  const totalPages = recipesData
-    ? Math.ceil(recipesData.length / ITEMS_PER_PAGE)
-    : 1;
-
+  // Update the page and scroll to the top
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -59,7 +58,7 @@ const Home = () => {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {paginatedRecipes.map((recipe) => (
+              {recipesData?.recipes.map((recipe: any) => (
                 <RecipeCard key={recipe._id} recipe={recipe} />
               ))}
             </div>
