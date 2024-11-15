@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter, useParams } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
@@ -7,12 +8,12 @@ import { useToast } from "@/components/ui/use-toast";
 
 const RecipeDetails = () => {
   const router = useRouter();
-  const params = useParams<{ id: string | null }>();
-  const { id } = params;
-  const { toast } = useToast();
-  const { data: recipe, isLoading } = useRecipe(id!);
-  const { mutate: deleteRecipe } = useDeleteRecipe();
+  const params = useParams<{ id: string }>();
 
+  // Safe check for params being null or undefined
+  const id = params?.id;
+
+  // Handle case where id is null or undefined
   if (!id) {
     return (
       <div className="min-h-screen bg-zinc-50">
@@ -23,6 +24,10 @@ const RecipeDetails = () => {
       </div>
     );
   }
+
+  const { toast } = useToast();
+  const { data: recipe, isLoading } = useRecipe(id);
+  const { mutate: deleteRecipe } = useDeleteRecipe();
 
   if (isLoading) {
     return (

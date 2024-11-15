@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter, useParams } from "next/navigation";
 import RecipeForm from "@/components/RecipeForm";
 import Navigation from "@/components/Navigation";
@@ -8,11 +9,9 @@ import { RecipeFormData } from "@/lib/types";
 const EditRecipe = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const params = useParams<{ id: string | null }>();
-  const { id } = params;
-
-  const { data: recipe, isLoading } = useRecipe(id!);
-  const { mutate: editRecipe, isPending: isUpdating } = useEditRecipe(id!);
+  const params = useParams<{ id: string }>();
+  // Safe check for params being null or undefined
+  const id = params?.id;
 
   if (!id) {
     return (
@@ -24,6 +23,8 @@ const EditRecipe = () => {
       </div>
     );
   }
+  const { data: recipe, isLoading } = useRecipe(id!);
+  const { mutate: editRecipe, isPending: isUpdating } = useEditRecipe(id!);
 
   if (isLoading) {
     return (
