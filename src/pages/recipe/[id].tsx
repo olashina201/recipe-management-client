@@ -4,11 +4,9 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRecipe, useDeleteRecipe } from "@/hooks/useRecipes";
 import { useToast } from "@/components/ui/use-toast";
-import { ConfirmModal } from "@/components/ConfirmModal";
-import { useConfirmModal } from "@/hooks/useConfirmModal";
 import { AppMessages } from "@/lib/messages";
 import Footer from "@/components/Footer";
-import { useState } from "react"; 
+import { useState } from "react";
 
 const RecipeDetails = () => {
   const router = useRouter();
@@ -17,7 +15,6 @@ const RecipeDetails = () => {
   const { toast } = useToast();
   const { data: recipe, isLoading } = useRecipe(id);
   const { mutate: deleteRecipe } = useDeleteRecipe();
-  const { isOpen, openModal, closeModal, handleConfirm } = useConfirmModal();
 
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -62,28 +59,26 @@ const RecipeDetails = () => {
   }
 
   const handleDelete = () => {
-    setIsDeleting(true);  // Set deleting state to true when delete starts
-    openModal(() => {
-      deleteRecipe(recipe._id, {
-        onSuccess: () => {
-          toast({
-            title: "Success",
-            description: AppMessages.recipe.deleteSuccess,
-          });
-          router.push("/");
-        },
-        onError: () => {
-          toast({
-            title: "Error",
-            description: AppMessages.recipe.deleteError,
-            variant: "destructive",
-          });
-        },
-        onSettled: () => {
-          setIsDeleting(false);  // Reset deleting state after the request is settled
-          closeModal();
-        },
-      });
+    setIsDeleting(true); // Set deleting state to true when delete starts
+    deleteRecipe(recipe._id, {
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: AppMessages.recipe.deleteSuccess,
+        });
+        setIsDeleting(false);
+        router.push("/");
+      },
+      onError: () => {
+        toast({
+          title: "Error",
+          description: AppMessages.recipe.deleteError,
+          variant: "destructive",
+        });
+      },
+      onSettled: () => {
+        setIsDeleting(false);
+      },
     });
   };
 
@@ -147,7 +142,7 @@ const RecipeDetails = () => {
                 Edit Recipe
               </Button>
               <Button variant="destructive" onClick={handleDelete}>
-                Delete Recipe
+                {isDeleting ? "Deleting..." : "Delete Recipe"}
               </Button>
             </div>
           </div>
@@ -155,14 +150,14 @@ const RecipeDetails = () => {
       </main>
 
       <Footer />
-      <ConfirmModal
+      {/* <ConfirmModal
         isOpen={isOpen}
         onClose={closeModal}
         onConfirm={handleConfirm}
         title="Delete Recipe"
         message={AppMessages.recipe.deleteConfirmation}
         loading={isDeleting}  // Pass the loading state to the modal
-      />
+      /> */}
     </div>
   );
 };
