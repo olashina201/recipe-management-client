@@ -58,7 +58,7 @@ const EditRecipe = () => {
           title: "Success",
           description: "Recipe updated successfully",
         });
-        router.push(`/recipe?id=${id}`);
+        router.push(`/recipe/${id}`);
       },
       onError: () => {
         toast({
