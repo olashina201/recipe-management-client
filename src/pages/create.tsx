@@ -5,6 +5,7 @@ import Navigation from "@/components/Navigation";
 import { useCloudinaryUpload } from "@/hooks/useCloudinaryUpload";
 import { useCreateRecipe } from "@/hooks/useCreateRecipe";
 import { useToast } from "@/hooks/useToast";
+import Footer from "@/components/Footer";
 
 const CreateRecipe = () => {
   const router = useRouter();
@@ -65,6 +66,8 @@ const CreateRecipe = () => {
           <RecipeForm onSubmit={handleSubmit} isLoading={isPending} />
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };

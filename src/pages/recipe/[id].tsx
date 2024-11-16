@@ -7,6 +7,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { ConfirmModal } from "@/components/ConfirmModal";
 import { useConfirmModal } from "@/hooks/useConfirmModal";
 import { AppMessages } from "@/lib/messages";
+import Footer from "@/components/Footer";
+import { useState } from "react"; 
 
 const RecipeDetails = () => {
   const router = useRouter();
@@ -16,6 +18,8 @@ const RecipeDetails = () => {
   const { data: recipe, isLoading } = useRecipe(id);
   const { mutate: deleteRecipe } = useDeleteRecipe();
   const { isOpen, openModal, closeModal, handleConfirm } = useConfirmModal();
+
+  const [isDeleting, setIsDeleting] = useState(false);
 
   if (!id) {
     return (
@@ -58,6 +62,7 @@ const RecipeDetails = () => {
   }
 
   const handleDelete = () => {
+    setIsDeleting(true);  // Set deleting state to true when delete starts
     openModal(() => {
       deleteRecipe(recipe._id, {
         onSuccess: () => {
@@ -73,6 +78,10 @@ const RecipeDetails = () => {
             description: AppMessages.recipe.deleteError,
             variant: "destructive",
           });
+        },
+        onSettled: () => {
+          setIsDeleting(false);  // Reset deleting state after the request is settled
+          closeModal();
         },
       });
     });
@@ -107,7 +116,7 @@ const RecipeDetails = () => {
               <ul className="mt-4 space-y-2">
                 {recipe.ingredients.map((ingredient, index) => (
                   <li key={index} className="flex items-center text-zinc-600">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>
+                    <span className="w-2 h-2 bg-emerald-800 rounded-full mr-3"></span>
                     {ingredient}
                   </li>
                 ))}
@@ -121,7 +130,7 @@ const RecipeDetails = () => {
               <ol className="mt-4 space-y-4">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index} className="flex text-zinc-600">
-                    <span className="font-medium text-orange-500 mr-4">
+                    <span className="font-medium text-emerald-800 mr-4">
                       {index + 1}.
                     </span>
                     {instruction}
@@ -133,7 +142,7 @@ const RecipeDetails = () => {
             <div className="mt-8 flex space-x-4">
               <Button
                 onClick={() => router.push(`/edit/${recipe._id}`)}
-                variant="outline"
+                variant="secondary"
               >
                 Edit Recipe
               </Button>
@@ -145,12 +154,14 @@ const RecipeDetails = () => {
         </div>
       </main>
 
+      <Footer />
       <ConfirmModal
         isOpen={isOpen}
         onClose={closeModal}
         onConfirm={handleConfirm}
         title="Delete Recipe"
         message={AppMessages.recipe.deleteConfirmation}
+        loading={isDeleting}  // Pass the loading state to the modal
       />
     </div>
   );

@@ -7,6 +7,13 @@ import { Search, Plus } from "lucide-react";
 const Navigation = () => {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/recipes", label: "Recipes" },
+    { href: "/articles", label: "Articles" },
+    { href: "/about", label: "About Us" },
+  ];
+
   return (
     <nav className="fixed top-0 left-0 right-0 bg-emerald-800/80 backdrop-blur-sm z-50 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,30 +29,15 @@ const Navigation = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/"
-              className="text-white hover:text-gray-200 transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/recipes"
-              className="text-white hover:text-gray-200 transition-colors"
-            >
-              Recipes
-            </Link>
-            <Link
-              href="/articles"
-              className="text-white hover:text-gray-200 transition-colors"
-            >
-              Articles
-            </Link>
-            <Link
-              href="/about"
-              className="text-white hover:text-gray-200 transition-colors"
-            >
-              About Us
-            </Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-white hover:text-gray-200 transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
           <div className="flex items-center space-x-4">

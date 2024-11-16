@@ -42,9 +42,13 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+
+    // Merge the buttonVariants classes and any custom className passed in the props
+    const buttonClassNames = buttonVariants({ variant, size })
+
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonClassNames, className)} // Use cn to merge classes correctly
         ref={ref}
         {...props}
       />

@@ -1,5 +1,3 @@
-// import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { useRecipes } from "@/hooks/useRecipes";
 import { useState } from "react";
 import RecipeCard from "./RecipeCard";
@@ -14,26 +12,6 @@ import {
 } from "./ui/pagination";
 
 const ITEMS_PER_PAGE = 6;
-// const popularRecipes = [
-//   {
-//     id: "1",
-//     title: "Salmon Salad",
-//     author: "Caitlin Leah",
-//     image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
-//   },
-//   {
-//     id: "2",
-//     title: "Ice Matcha Latte",
-//     author: "Zoey Ressey",
-//     image: "https://images.unsplash.com/photo-1534353473418-4cfa6c56fd38",
-//   },
-//   {
-//     id: "3",
-//     title: "Avocado Toast",
-//     author: "Mark Thompson",
-//     image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d",
-//   },
-// ];
 
 const PopularRecipes = () => {
   const [page, setPage] = useState(1);
@@ -69,12 +47,6 @@ const PopularRecipes = () => {
               Our most popular recipes of this week
             </p>
           </div>
-          <Button
-            variant="link"
-            className="text-emerald-600 hover:text-emerald-700"
-          >
-            See all
-          </Button>
         </div>
 
         {isLoading ? (

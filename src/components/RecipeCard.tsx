@@ -13,16 +13,16 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
     <Link
       key={recipe._id}
       href={`/recipe/${recipe._id}`}
-      className="group block"
+      className="group block shadow-xl p-2 rounded-2xl"
     >
-      <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-100">
+      <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-100 shadow-lg">
         {recipe.imageUrl ? (
           <Image
             src={recipe.imageUrl}
             alt={recipe.title}
             fill
             className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 768px) 90vw, (max-width: 1200px) 30vw, 23vw"
             loading="lazy"
           />
         ) : (
@@ -34,9 +34,24 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
       <h3 className="mt-4 text-xl font-semibold text-gray-900">
         {recipe.title}
       </h3>
-      <p className="mt-1 text-sm text-gray-600">{recipe.description}</p>
+
+      <div className="mt-2 overflow-x-auto flex gap-2 text-sm text-gray-600">
+        {recipe.ingredients && recipe.ingredients.length > 0 ? (
+          recipe.ingredients.map((ingredient, index) => (
+            <span
+              key={index}
+              className="flex items-center px-4 py-1 bg-emerald-800 rounded-full text-gray-200 whitespace-nowrap"
+            >
+              {ingredient}
+            </span>
+          ))
+        ) : (
+          <span className="text-gray-400">No ingredients listed</span>
+        )}
+      </div>
+
       <div className="mt-2 flex items-center text-sm text-zinc-500">
-        {/* <ClockIcon className="w-4 h-4 mr-2 text-zinc-400" /> */}
+        {/* Clock icon */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

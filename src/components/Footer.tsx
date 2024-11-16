@@ -1,6 +1,25 @@
 import Link from "next/link";
 
 const Footer = () => {
+  const menuLinks = [
+    { href: "/", label: "Home" },
+    { href: "/recipes", label: "Recipes" },
+    { href: "/articles", label: "Articles" },
+    { href: "/about", label: "About Us" },
+  ];
+
+  const helpLinks = [
+    { href: "/privacy", label: "Privacy and Policy" },
+    { href: "/terms", label: "Term of Use" },
+  ];
+
+  const socialLinks = [
+    { href: "https://facebook.com", label: "Facebook" },
+    { href: "https://instagram.com", label: "Instagram" },
+    { href: "https://twitter.com", label: "Twitter" },
+    { href: "https://youtube.com", label: "Youtube" },
+  ];
+
   return (
     <footer className="bg-emerald-800 text-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,38 +43,16 @@ const Footer = () => {
               <div className="space-y-4">
                 <h4 className="text-xl font-semibold">Menu</h4>
                 <ul className="space-y-2">
-                  <li>
-                    <Link
-                      href="/"
-                      className="text-gray-200 hover:text-white transition-colors"
-                    >
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/recipes"
-                      className="text-gray-200 hover:text-white transition-colors"
-                    >
-                      Recipes
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/articles"
-                      className="text-gray-200 hover:text-white transition-colors"
-                    >
-                      Articles
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/about"
-                      className="text-gray-200 hover:text-white transition-colors"
-                    >
-                      About Us
-                    </Link>
-                  </li>
+                  {menuLinks.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-gray-200 hover:text-white transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
@@ -63,22 +60,16 @@ const Footer = () => {
               <div className="space-y-4">
                 <h4 className="text-xl font-semibold">Help</h4>
                 <ul className="space-y-2">
-                  <li>
-                    <Link
-                      href="/privacy"
-                      className="text-gray-200 hover:text-white transition-colors"
-                    >
-                      Privacy and Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/terms"
-                      className="text-gray-200 hover:text-white transition-colors"
-                    >
-                      Term of Use
-                    </Link>
-                  </li>
+                  {helpLinks.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-gray-200 hover:text-white transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
@@ -86,46 +77,18 @@ const Footer = () => {
               <div className="space-y-4">
                 <h4 className="text-xl font-semibold">Social</h4>
                 <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="https://facebook.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-200 hover:text-white transition-colors"
-                    >
-                      Facebook
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://instagram.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-200 hover:text-white transition-colors"
-                    >
-                      Instagram
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://twitter.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-200 hover:text-white transition-colors"
-                    >
-                      Twitter
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://youtube.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-200 hover:text-white transition-colors"
-                    >
-                      Youtube
-                    </a>
-                  </li>
+                  {socialLinks.map((link) => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-200 hover:text-white transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>

@@ -6,6 +6,7 @@ interface ConfirmModalProps {
   onConfirm: () => void;
   title?: string;
   message?: string;
+  loading?: boolean;  // Prop to indicate loading state
 }
 
 export const ConfirmModal: React.FC<ConfirmModalProps> = ({
@@ -14,6 +15,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   onConfirm,
   title = "Confirm Action",
   message = "Are you sure you want to perform this action?",
+  loading = false,  // Default value is false
 }) => {
   if (!isOpen) return null;
 
@@ -30,10 +32,11 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
             Cancel
           </button>
           <button
-            className="py-2 px-4 text-sm font-medium rounded-lg bg-blue-500 text-white hover:bg-blue-600 focus:outline-none"
+            className={`py-2 px-4 text-sm font-medium rounded-lg ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-destructive text-white hover:bg-blue-600 focus:outline-none'}`}
             onClick={onConfirm}
+            disabled={loading}  // Disable button if loading is true
           >
-            Confirm
+            {loading ? 'Deleting...' : 'Confirm'}
           </button>
         </div>
       </div>
