@@ -21,7 +21,7 @@ const CreateRecipe = () => {
         image = await uploadImage(data.image);
       }
 
-      await createRecipe(
+      createRecipe(
         {
           title: data.title,
           description: data.description || "", // Provide empty string as fallback
@@ -46,7 +46,7 @@ const CreateRecipe = () => {
           },
         }
       );
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast({
         title: "Error",

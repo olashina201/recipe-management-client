@@ -1,19 +1,22 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter, useParams } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRecipe, useDeleteRecipe } from "@/hooks/useRecipes";
 import { useToast } from "@/components/ui/use-toast";
+import { ConfirmModal } from "@/components/ConfirmModal";
+import { useConfirmModal } from "@/hooks/useConfirmModal";
+import { AppMessages } from "@/lib/messages";
 
 const RecipeDetails = () => {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-
-  // Safe check for params being null or undefined
   const id = params?.id;
+  const { toast } = useToast();
+  const { data: recipe, isLoading } = useRecipe(id);
+  const { mutate: deleteRecipe } = useDeleteRecipe();
+  const { isOpen, openModal, closeModal, handleConfirm } = useConfirmModal();
 
-  // Handle case where id is null or undefined
   if (!id) {
     return (
       <div className="min-h-screen bg-zinc-50">
@@ -24,10 +27,6 @@ const RecipeDetails = () => {
       </div>
     );
   }
-
-  const { toast } = useToast();
-  const { data: recipe, isLoading } = useRecipe(id);
-  const { mutate: deleteRecipe } = useDeleteRecipe();
 
   if (isLoading) {
     return (
@@ -59,21 +58,23 @@ const RecipeDetails = () => {
   }
 
   const handleDelete = () => {
-    deleteRecipe(recipe._id, {
-      onSuccess: () => {
-        toast({
-          title: "Success",
-          description: "Recipe deleted successfully",
-        });
-        router.push("/");
-      },
-      onError: () => {
-        toast({
-          title: "Error",
-          description: "Failed to delete recipe",
-          variant: "destructive",
-        });
-      },
+    openModal(() => {
+      deleteRecipe(recipe._id, {
+        onSuccess: () => {
+          toast({
+            title: "Success",
+            description: AppMessages.recipe.deleteSuccess,
+          });
+          router.push("/");
+        },
+        onError: () => {
+          toast({
+            title: "Error",
+            description: AppMessages.recipe.deleteError,
+            variant: "destructive",
+          });
+        },
+      });
     });
   };
 
@@ -84,13 +85,13 @@ const RecipeDetails = () => {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <div className="bg-white rounded-xl shadow-sm overflow-hidden animate-fade-up">
           {recipe.imageUrl && (
-            <div className="aspect-w-16 aspect-h-9 bg-zinc-100">
+            <div className="relative w-full h-64">
               <Image
                 src={recipe.imageUrl}
                 alt={recipe.title}
-                width={100}
-                height={100}
-                className="object-cover w-full h-full"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           )}
@@ -143,6 +144,14 @@ const RecipeDetails = () => {
           </div>
         </div>
       </main>
+
+      <ConfirmModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        onConfirm={handleConfirm}
+        title="Delete Recipe"
+        message={AppMessages.recipe.deleteConfirmation}
+      />
     </div>
   );
 };
