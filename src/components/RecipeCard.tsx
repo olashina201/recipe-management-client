@@ -11,16 +11,17 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
 
   return (
     <Link
+      key={recipe._id}
       href={`/recipe/${recipe._id}`}
-      className="group relative bg-white rounded-xl overflow-hidden border border-zinc-100 hover:border-zinc-200 transition-all duration-300 animate-fade-up"
+      className="group block"
     >
-      <div className="relative w-full h-64">
+      <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-100">
         {recipe.imageUrl ? (
           <Image
             src={recipe.imageUrl}
             alt={recipe.title}
             fill
-            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             loading="lazy"
           />
@@ -30,32 +31,28 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
           </div>
         )}
       </div>
-      <div className="p-4">
-        <h3 className="text-lg font-medium text-zinc-900 group-hover:text-orange-500 transition-colors">
-          {recipe.title}
-        </h3>
-        <p className="mt-1 text-sm text-zinc-500 line-clamp-2">
-          {recipe.description}
-        </p>
-        <div className="mt-2 flex items-center text-sm text-zinc-500">
-          {/* <ClockIcon className="w-4 h-4 mr-2 text-zinc-400" /> */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-            />
-          </svg>
+      <h3 className="mt-4 text-xl font-semibold text-gray-900">
+        {recipe.title}
+      </h3>
+      <p className="mt-1 text-sm text-gray-600">{recipe.description}</p>
+      <div className="mt-2 flex items-center text-sm text-zinc-500">
+        {/* <ClockIcon className="w-4 h-4 mr-2 text-zinc-400" /> */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
 
-          <span>{formattedDate}</span>
-        </div>
+        <span>{formattedDate}</span>
       </div>
     </Link>
   );
