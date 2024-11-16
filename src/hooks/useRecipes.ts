@@ -78,7 +78,7 @@ export const useEditRecipe = (id: string) => {
           description: data.description || "",
           ingredients: data.ingredients,
           instructions: data.instructions,
-          image,
+          imageUrl: image,
         }),
       });
 
