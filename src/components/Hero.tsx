@@ -31,17 +31,16 @@ const Hero = () => {
 
           {/* Right Column - Image and Reviews */}
           <div className="relative">
-            {/* Image Container */}
-            <div className="relative w-full h-64 sm:h-80 lg:h-[500px]">
+            <div className="relative w-full h-[500px]">
               <img
                 src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
                 alt="Delicious meal"
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-cover rounded-full"
               />
             </div>
 
             {/* Review Cards */}
-            <Card className="absolute top-1/4 left-0 transform -translate-x-1/4 bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg max-w-[250px] animate-fade-in sm:max-w-[300px] lg:max-w-[250px]">
+            <Card className="absolute top-1/4 left-0 transform -translate-x-1/4 bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg max-w-[250px] animate-fade-in">
               <CardContent className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-gray-200" />
@@ -54,7 +53,7 @@ const Hero = () => {
               </CardContent>
             </Card>
 
-            <Card className="absolute bottom-1/4 right-0 transform translate-x-1/4 bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg max-w-[250px] animate-fade-in sm:max-w-[300px] lg:max-w-[250px]">
+            <Card className="absolute bottom-1/4 right-0 transform translate-x-1/4 bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg max-w-[250px] animate-fade-in">
               <CardContent className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-gray-200" />

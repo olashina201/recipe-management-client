@@ -13,7 +13,7 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
     <Link
       key={recipe._id}
       href={`/recipe/${recipe._id}`}
-      className="group block shadow-xl p-2 rounded-2xl"
+      className="group block shadow-xl p-2 rounded-2xl bg-gray-200"
     >
       <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-100 shadow-lg">
         {recipe.imageUrl ? (
