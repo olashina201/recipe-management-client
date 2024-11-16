@@ -2,14 +2,13 @@ import { useRouter } from "next/navigation";
 import { RecipeFormData } from "@/lib/types";
 import RecipeForm from "@/components/RecipeForm";
 import Navigation from "@/components/Navigation";
-import { useToast } from "@/components/ui/use-toast";
 import { useCloudinaryUpload } from "@/hooks/useCloudinaryUpload";
 import { useCreateRecipe } from "@/hooks/useCreateRecipe";
+import { useToast } from "@/hooks/useToast";
 
 const CreateRecipe = () => {
   const router = useRouter();
-  const { toast } = useToast();
-
+  const { showToast } = useToast();
   const { mutateAsync: uploadImage } = useCloudinaryUpload();
   const { mutate: createRecipe, isPending } = useCreateRecipe();
 
@@ -24,34 +23,32 @@ const CreateRecipe = () => {
       createRecipe(
         {
           title: data.title,
-          description: data.description || "", // Provide empty string as fallback
+          description: data.description || "",
           ingredients: data.ingredients,
           instructions: data.instructions,
           imageUrl: image,
         },
         {
           onSuccess: () => {
-            toast({
-              title: "Success",
-              description: "Recipe created successfully",
+            showToast({
+              type: 'success',
+              message: "Recipe created successfully",
             });
             router.push("/");
           },
           onError: () => {
-            toast({
-              title: "Error",
-              description: "Failed to create recipe",
-              variant: "destructive",
+            showToast({
+              type: "error",
+              message: "Failed to create recipe",
             });
           },
         }
       );
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to upload image",
-        variant: "destructive",
+      showToast({
+        type: "error",
+        message: "Failed to upload image",
       });
     }
   };

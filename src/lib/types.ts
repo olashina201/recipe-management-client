@@ -16,3 +16,15 @@ export interface RecipeFormData {
   instructions: string[];
   image?: File;
 }
+
+export type ToastType = 'default' | 'success' | 'error' | 'warning' | 'info';
+
+export interface ToastProps {
+  message: string;
+  type?: ToastType;
+  duration?: number;
+}
+
+export interface ToastInstance extends ToastProps {
+  id: string;
+}

@@ -3,7 +3,6 @@ import { Recipe, RecipeFormData } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
 
 interface RecipeFormProps {
   initialData?: Recipe;
@@ -12,7 +11,7 @@ interface RecipeFormProps {
 }
 
 const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
-  const { toast } = useToast();
+  // Form state
   const [formData, setFormData] = useState<RecipeFormData>({
     title: initialData?.title || "",
     description: initialData?.description || "",
@@ -21,16 +20,38 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
     image: undefined,
   });
 
+  // Error state
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate required fields
+    const newErrors: { [key: string]: string } = {};
+
     if (!formData.title.trim()) {
-      toast({
-        title: "Error",
-        description: "Title is required",
-        variant: "destructive",
-      });
+      newErrors.title = "Title is required";
+    }
+
+    // Check for empty ingredients
+    if (formData.ingredients.some((ingredient) => !ingredient.trim())) {
+      newErrors.ingredients = "All ingredients are required";
+    }
+
+    // Check for empty instructions
+    if (formData.instructions.some((instruction) => !instruction.trim())) {
+      newErrors.instructions = "All instructions are required";
+    }
+
+    // Check if there are any errors
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
+
+    // Clear errors if form is valid
+    setErrors({});
+
     onSubmit(formData);
   };
 
@@ -59,16 +80,21 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
     <form onSubmit={handleSubmit} className="space-y-8 animate-fade-up">
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-zinc-700">Title</label>
+          <label className="block text-sm font-medium text-zinc-700">
+            Title
+          </label>
           <Input
             type="text"
             value={formData.title}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, title: e.target.value }))
             }
-            className="mt-1"
+            className={`mt-1 ${errors.title ? "border-red-500" : ""}`}
             placeholder="Recipe title"
           />
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+          )}
         </div>
 
         <div>
@@ -86,7 +112,9 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-700">Image</label>
+          <label className="block text-sm font-medium text-zinc-700">
+            Image
+          </label>
           <Input
             type="file"
             onChange={handleImageChange}
@@ -112,10 +140,13 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
                   ingredients: newIngredients,
                 }));
               }}
-              className="mt-1"
+              className={`mt-1 ${errors.ingredients ? "border-red-500" : ""}`}
               placeholder={`Ingredient ${index + 1}`}
             />
           ))}
+          {errors.ingredients && (
+            <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>
+          )}
           <Button
             type="button"
             variant="outline"
@@ -142,10 +173,13 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
                   instructions: newInstructions,
                 }));
               }}
-              className="mt-1"
+              className={`mt-1 ${errors.instructions ? "border-red-500" : ""}`}
               placeholder={`Step ${index + 1}`}
             />
           ))}
+          {errors.instructions && (
+            <p className="text-red-500 text-sm mt-1">{errors.instructions}</p>
+          )}
           <Button
             type="button"
             variant="outline"
@@ -158,7 +192,11 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
       </div>
 
       <Button type="submit" disabled={isLoading}>
-        {isLoading ? "Saving..." : initialData ? "Update Recipe" : "Create Recipe"}
+        {isLoading
+          ? "Saving..."
+          : initialData
+          ? "Update Recipe"
+          : "Create Recipe"}
       </Button>
     </form>
   );
