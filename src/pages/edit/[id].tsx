@@ -4,7 +4,6 @@ import RecipeForm from "@/components/RecipeForm";
 import Navigation from "@/components/Navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { useRecipe, useEditRecipe } from "@/hooks/useRecipes";
-import { useCloudinaryUpload } from "@/hooks/useCloudinaryUpload";
 import { RecipeFormData } from "@/lib/types";
 
 const EditRecipe = () => {
@@ -25,7 +24,6 @@ const EditRecipe = () => {
     );
   }
   const { data: recipe, isLoading } = useRecipe(id!);
-  const { mutateAsync: uploadImage } = useCloudinaryUpload();
   const { mutate: editRecipe, isPending: isUpdating } = useEditRecipe(id!);
 
   if (isLoading) {
@@ -54,19 +52,7 @@ const EditRecipe = () => {
   }
 
   const handleSubmit = async (data: RecipeFormData) => {
-    let image: string | undefined;
-
-      if (data.image) {
-        image = await uploadImage(data.image);
-      }
-    
-    editRecipe({
-          title: data.title,
-          description: data.description,
-          ingredients: data.ingredients,
-          instructions: data.instructions,
-          imageUrl: image,
-        }, {
+    editRecipe(data, {
       onSuccess: () => {
         toast({
           title: "Success",
