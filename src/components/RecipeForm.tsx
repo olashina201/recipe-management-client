@@ -119,7 +119,7 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
         />
       </div>
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
+      <Button type="submit" className={`btn w-full ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`} disabled={isLoading}>
         {isLoading ? "Saving..." : initialData ? "Update Recipe" : "Create Recipe"}
       </Button>
     </form>

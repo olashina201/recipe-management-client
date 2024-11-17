@@ -4,16 +4,19 @@ import RecipeForm from "@/components/RecipeForm";
 import Navigation from "@/components/Navigation";
 import { useCloudinaryUpload } from "@/hooks/useCloudinaryUpload";
 import { useCreateRecipe } from "@/hooks/useCreateRecipe";
-import { useToast } from "@/hooks/useToast";
 import Footer from "@/components/Footer";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 const CreateRecipe = () => {
   const router = useRouter();
-  const { showToast } = useToast();
+  const { toast } = useToast();
   const { mutateAsync: uploadImage } = useCloudinaryUpload();
-  const { mutate: createRecipe, isPending } = useCreateRecipe();
+  const { mutate: createRecipe } = useCreateRecipe();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (data: RecipeFormData) => {
+    setIsLoading(true); // Start loading immediately
     try {
       let image: string | undefined;
 
@@ -31,25 +34,32 @@ const CreateRecipe = () => {
         },
         {
           onSuccess: () => {
-            showToast({
-              type: 'success',
-              message: "Recipe created successfully",
+            toast({
+              title: "Success",
+              description: "Recipe created successfully",
+              variant: "success",
             });
             router.push("/");
           },
           onError: () => {
-            showToast({
-              type: "error",
-              message: "Failed to create recipe",
+            toast({
+              title: "Error",
+              description: "Failed to create recipe",
+              variant: "destructive",
             });
+          },
+          onSettled: () => {
+            setIsLoading(false);
           },
         }
       );
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      showToast({
-        type: "error",
-        message: "Failed to upload image",
+      setIsLoading(false);
+      toast({
+        title: "Error",
+        description: "Failed to upload image",
+        variant: "destructive",
       });
     }
   };
@@ -63,7 +73,7 @@ const CreateRecipe = () => {
           <h1 className="text-3xl font-bold text-zinc-900 mb-8">
             Create New Recipe
           </h1>
-          <RecipeForm onSubmit={handleSubmit} isLoading={isPending} />
+          <RecipeForm onSubmit={handleSubmit} isLoading={isLoading} />
         </div>
       </main>
 

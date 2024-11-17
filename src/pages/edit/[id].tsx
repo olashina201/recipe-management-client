@@ -57,6 +57,7 @@ const EditRecipe = () => {
         toast({
           title: "Success",
           description: "Recipe updated successfully",
+          variant: "success"
         });
         router.push(`/recipe/${id}`);
       },
