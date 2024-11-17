@@ -1,12 +1,21 @@
+/* eslint-disable @next/next/no-img-element */
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ImageUploadProps {
   onChange: (file: File | undefined) => void;
+  initialImage?: string;  // Accept the initial image URL if it exists
 }
 
-const ImageUpload = ({ onChange }: ImageUploadProps) => {
+const ImageUpload = ({ onChange, initialImage }: ImageUploadProps) => {
   const [preview, setPreview] = useState<string | null>(null);
+
+  // Set preview to initialImage if available
+  useEffect(() => {
+    if (initialImage) {
+      setPreview(initialImage);
+    }
+  }, [initialImage]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

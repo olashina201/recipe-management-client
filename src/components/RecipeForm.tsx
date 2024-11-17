@@ -33,11 +33,11 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
       newErrors.title = "Title is required";
     }
 
-    if (formData.ingredients.some(ingredient => !ingredient.trim())) {
+    if (formData.ingredients.some((ingredient) => !ingredient.trim())) {
       newErrors.ingredients = "All ingredients must be filled out";
     }
 
-    if (formData.instructions.some(instruction => !instruction.trim())) {
+    if (formData.instructions.some((instruction) => !instruction.trim())) {
       newErrors.instructions = "All instructions must be filled out";
     }
 
@@ -47,7 +47,7 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       toast({
         title: "Validation Error",
@@ -72,7 +72,7 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
               setFormData((prev) => ({ ...prev, title: e.target.value }))
             }
             placeholder="Recipe title"
-            className={`w-full ${errors.title ? 'border-red-500' : ''}`}
+            className={`w-full ${errors.title ? "border-red-500" : ""}`}
           />
           {errors.title && (
             <Alert variant="destructive">
@@ -82,7 +82,9 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-zinc-700">Description (Optional)</label>
+          <label className="text-sm font-medium text-zinc-700">
+            Description (Optional)
+          </label>
           <Textarea
             value={formData.description}
             onChange={(e) =>
@@ -94,8 +96,11 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-zinc-700">Image (Optional)</label>
+          <label className="text-sm font-medium text-zinc-700">
+            Image (Optional)
+          </label>
           <ImageUpload
+            initialImage={initialData?.imageUrl}
             onChange={(file) =>
               setFormData((prev) => ({ ...prev, image: file }))
             }
@@ -119,8 +124,18 @@ const RecipeForm = ({ initialData, onSubmit, isLoading }: RecipeFormProps) => {
         />
       </div>
 
-      <Button type="submit" className={`btn w-full ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`} disabled={isLoading}>
-        {isLoading ? "Saving..." : initialData ? "Update Recipe" : "Create Recipe"}
+      <Button
+        type="submit"
+        className={`btn w-full ${
+          isLoading ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+        disabled={isLoading}
+      >
+        {isLoading
+          ? "Saving..."
+          : initialData
+          ? "Update Recipe"
+          : "Create Recipe"}
       </Button>
     </form>
   );
