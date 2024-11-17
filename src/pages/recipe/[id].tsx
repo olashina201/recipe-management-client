@@ -65,22 +65,24 @@ const RecipeDetails = () => {
         toast({
           title: "Success",
           description: AppMessages.recipe.deleteSuccess,
+          variant: "success"
         });
-        setIsDeleting(false);
-        router.push("/");
+        router.push("/"); // Navigate away only on success
       },
-      onError: () => {
+      onError: (error) => {
         toast({
           title: "Error",
-          description: AppMessages.recipe.deleteError,
+          description: error?.message || AppMessages.recipe.deleteError,
           variant: "destructive",
         });
+        console.error("Failed to delete recipe:", error); // Log the error for debugging
       },
       onSettled: () => {
-        setIsDeleting(false);
+        setIsDeleting(false); // Reset deleting state
       },
     });
   };
+  
 
   return (
     <div className="min-h-screen bg-zinc-50">
