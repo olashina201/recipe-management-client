@@ -1,18 +1,8 @@
 import Link from "next/link";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Search, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 const Navigation = () => {
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/", label: "Recipes" },
-    { href: "/", label: "Articles" },
-    { href: "/", label: "About Us" },
-  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-emerald-800/80 backdrop-blur-sm z-50 border-b border-white/10">
@@ -28,43 +18,7 @@ const Navigation = () => {
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-white hover:text-gray-200 transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
           <div className="flex items-center space-x-4">
-            <div className="flex items-center">
-              {isSearchExpanded ? (
-                <div className="animate-fade-in flex items-center bg-white/10 rounded-lg px-3 py-1">
-                  <Input
-                    type="search"
-                    placeholder="Search recipes..."
-                    className="bg-transparent border-none text-white placeholder:text-white/70 focus-visible:ring-0 w-[200px]"
-                    autoFocus
-                    onBlur={() => setIsSearchExpanded(false)}
-                  />
-                  <Search className="h-5 w-5 text-white/70" />
-                </div>
-              ) : (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-white"
-                  onClick={() => setIsSearchExpanded(true)}
-                >
-                  <Search className="h-5 w-5" />
-                </Button>
-              )}
-            </div>
-
             <Link href="/create">
               <Button
                 variant="secondary"

@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -19,12 +20,14 @@ const Hero = () => {
               Discover 1000+ recipes in your hand with the best recipe. Help you
               to find the easiest way to cook.
             </p>
-            <Button
-              size="lg"
-              className="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-6 text-lg"
-            >
-              Explore Recipes
-            </Button>
+            <Link href="#recipes">
+              <Button
+                size="lg"
+                className="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-6 text-lg"
+              >
+                Explore Recipes
+              </Button>
+            </Link>
           </div>
 
           <div className="relative">
