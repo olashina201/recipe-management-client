@@ -3,21 +3,21 @@ import Link from "next/link";
 const Footer = () => {
   const menuLinks = [
     { href: "/", label: "Home" },
-    { href: "/recipes", label: "Recipes" },
-    { href: "/articles", label: "Articles" },
-    { href: "/about", label: "About Us" },
+    { href: "/", label: "Recipes" },
+    { href: "/", label: "Articles" },
+    { href: "/", label: "About Us" },
   ];
 
   const helpLinks = [
-    { href: "/privacy", label: "Privacy and Policy" },
-    { href: "/terms", label: "Term of Use" },
+    { href: "/", label: "Privacy and Policy" },
+    { href: "/", label: "Term of Use" },
   ];
 
   const socialLinks = [
-    { href: "https://facebook.com", label: "Facebook" },
-    { href: "https://instagram.com", label: "Instagram" },
-    { href: "https://twitter.com", label: "Twitter" },
-    { href: "https://youtube.com", label: "Youtube" },
+    { href: "/", label: "Facebook" },
+    { href: "/", label: "Instagram" },
+    { href: "/", label: "Twitter" },
+    { href: "/", label: "Youtube" },
   ];
 
   return (

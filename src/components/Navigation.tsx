@@ -9,9 +9,9 @@ const Navigation = () => {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/recipes", label: "Recipes" },
-    { href: "/articles", label: "Articles" },
-    { href: "/about", label: "About Us" },
+    { href: "/", label: "Recipes" },
+    { href: "/", label: "Articles" },
+    { href: "/", label: "About Us" },
   ];
 
   return (
